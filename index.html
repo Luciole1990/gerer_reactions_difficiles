@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les réactions difficiles - VSS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .intro-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 40px;
+            margin: 40px;
+            border-radius: 20px;
+            border-left: 8px solid #1e3c72;
+            box-shadow: 0 5px 20px rgba(30, 60, 114, 0.2);
+        }
+        
+        .intro-section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro-section h2 .emoji {
+            font-size: 1.3em;
+            margin-right: 15px;
+        }
+        
+        .intro-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .intro-section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        
+        .intro-section li {
+            padding: 12px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .intro-section li:before {
+            content: "✓";
+            color: #1e3c72;
+            font-weight: bold;
+            position: absolute;
+            left: 10px;
+            font-size: 1.3em;
+        }
+        
+        .section {
+            padding: 40px;
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #1e3c72;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title .emoji {
+            font-size: 1.2em;
+            margin-right: 15px;
+        }
+        
+        .reactions-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .reactions-table thead tr {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .reactions-table th {
+            padding: 25px 20px;
+            text-align: left;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .reactions-table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .reactions-table tbody tr:nth-child(odd) {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .reactions-table tbody tr:nth-child(even) {
+            background: white;
+        }
+        
+        .reactions-table tbody tr:hover {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.2);
+        }
+        
+        .reactions-table td {
+            padding: 25px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        
+        .reactions-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .reaction-cell {
+            font-weight: 600;
+            color: #d32f2f;
+            font-size: 1.1em;
+            position: relative;
+            padding-left: 35px;
+        }
+        
+        .reaction-cell:before {
+            content: "💬";
+            position: absolute;
+            left: 5px;
+            font-size: 1.2em;
+        }
+        
+        .reformulation-cell textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            border: 3px solid #bbdefb;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .reformulation-cell textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 4px rgba(30, 60, 114, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .reformulation-cell textarea::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        
+        .response-cell {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #2d5016;
+            border-left: 4px solid #4a7c2c;
+        }
+        
+        .response-cell strong {
+            color: #2d5016;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 30px;
+            margin: 40px;
+            border-radius: 20px;
+            border-left: 8px solid #ff9800;
+            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.2);
+        }
+        
+        .tip-box h3 {
+            color: #ff9800;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tip-box h3 .emoji {
+            font-size: 1.3em;
+            margin-right: 10px;
+        }
+        
+        .tip-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tip-box li {
+            padding: 12px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .tip-box li:before {
+            content: "💡";
+            position: absolute;
+            left: 5px;
+            font-size: 1.3em;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .action-buttons {
+                display: none;
+            }
+            
+            .reactions-table textarea {
+                border: 1px solid #ccc;
+                background: white;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .reactions-table {
+                font-size: 0.9em;
+            }
+            
+            .reactions-table th,
+            .reactions-table td {
+                padding: 15px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💬 Gérer les Réactions Difficiles</h1>
+            <p>Répondre aux objections et remarques sensibles lors d'un module VSS</p>
+        </div>
+        
+        <div class="intro-section">
+            <h2><span class="emoji">🎯</span>Objectif de l'exercice</h2>
+            <p>Lors d'un module de prévention VSS, vous pouvez être confronté·e à des réactions difficiles, des objections, voire des remarques problématiques. <strong>Savoir reformuler et répondre de manière factuelle et pédagogique est essentiel.</strong></p>
+            
+            <p><strong>Votre mission :</strong> Pour chaque réaction listée, trouvez une reformulation empathique et proposez une réponse du formateur basée sur les faits.</p>
+            
+            <h3 style="color: #1e3c72; margin-top: 25px; margin-bottom: 15px;">📋 Méthode en 3 étapes :</h3>
+            <ul>
+                <li><strong>Reformuler</strong> : Montrer qu'on a entendu, sans jugement</li>
+                <li><strong>Répondre factuellement</strong> : S'appuyer sur la loi, les chiffres, les définitions</li>
+                <li><strong>Recadrer si nécessaire</strong> : Rappeler le cadre sans agressivité</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">📝</span>Tableau à compléter</h2>
+            
+            <table class="reactions-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Réaction du stagiaire</th>
+                        <th style="width: 30%;">Votre reformulation</th>
+                        <th style="width: 45%;">Réponse du formateur (éléments de réponse)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="reaction-cell">"C'est du délire ce #MeToo"</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique...&#10;&#10;Exemple : 'Vous trouvez qu'on en fait trop ?'"></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            Juridiquement, la loi existait bien avant #MeToo. Ce qui change : les victimes parlent et on les écoute. Les chiffres : 1 femme sur 3 subit du harcèlement au travail. C'est massif.
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">"On ne peut plus rien dire"</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            La loi est claire sur ce qui est interdit. Tant qu'on respecte l'autre, pas de souci. La différence : drague OK si consentie, harcèlement = répété + non désiré.
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">"Les femmes exagèrent"</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            Les études montrent que les victimes sous-déclarent les VSS, pas l'inverse. 90% des victimes ne portent pas plainte. Si quoi que ce soit, c'est minimisé, pas exagéré.
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">"C'est de l'humour"</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            L'humour, c'est quand tout le monde rit. Là, ça a mis quelqu'un mal à l'aise. Légalement, l'intention ne compte pas, seul l'effet compte.
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">"Pourquoi que nous ?"<br><span style="font-size: 0.9em; color: #666;">(groupe 100% hommes)</span></td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            Ce n'est pas une accusation. On parle de comportements, pas d'un genre. Tout le monde peut être auteur, tout le monde peut être victime ou témoin. Vous êtes concernés comme tout le monde.
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">Silence gêné collectif</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Comment gérez-vous ce silence ?"></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            "C'est normal que ce soit un peu inconfortable. Le sujet est délicat. L'objectif n'est pas de vous mettre mal à l'aise, mais de clarifier ensemble ce qui est acceptable ou non."
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="reaction-cell">"Moi je drague, c'est ma nature"</td>
+                        <td class="reformulation-cell">
+                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                        </td>
+                        <td class="response-cell">
+                            <strong>Éléments de réponse :</strong>
+                            La drague, OK si : 1) contexte approprié (pas en formation/travail idéalement), 2) vous acceptez le non, 3) pas de rapport de pouvoir. Harcèlement = insistance malgré refus ou contexte pro avec déséquilibre.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="tip-box">
+            <h3><span class="emoji">💡</span>Conseils pour gérer ces réactions</h3>
+            <ul>
+                <li><strong>Restez calme et factuel</strong> : Ne vous laissez pas déstabiliser par la provocation</li>
+                <li><strong>Accueillez l'objection</strong> : "Je comprends votre point de vue" avant de recadrer</li>
+                <li><strong>Utilisez les données</strong> : Chiffres, loi, définitions officielles</li>
+                <li><strong>Dépersonnalisez</strong> : Parlez de comportements, pas de personnes</li>
+                <li><strong>Posez des limites si nécessaire</strong> : "Ce type de remarque n'a pas sa place ici"</li>
+                <li><strong>Proposez d'en discuter après</strong> : Si la tension monte, prenez un temps individuel</li>
+            </ul>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimer / Télécharger en PDF</button>
+            <button class="btn btn-secondary" onclick="alert('Excellent travail ! Vous êtes maintenant mieux préparé·e à gérer ces situations délicates. 💪')">✅ Exercice terminé</button>
+        </div>
+    </div>
+</body>
+</html>
