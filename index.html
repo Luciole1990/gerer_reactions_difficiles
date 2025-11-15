@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gérer les réactions difficiles</title>
+    <title>Gérer les réactions difficiles - VSS</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         
@@ -69,18 +69,6 @@
             text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
         }
         
-        .header .badge {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.3);
-            color: #ffd700;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            border: 2px solid #ffd700;
-        }
-        
         .header p {
             font-size: 1.2em;
             opacity: 0.95;
@@ -118,33 +106,28 @@
             margin-bottom: 15px;
         }
         
-        .toggle-all-container {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            padding: 25px;
-            margin: 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 3px solid #ff9800;
-            box-shadow: 0 5px 20px rgba(255, 152, 0, 0.2);
+        .intro-section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
         }
         
-        .toggle-all-btn {
-            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        .intro-section li {
+            padding: 12px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #333;
         }
         
-        .toggle-all-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.5);
+        .intro-section li:before {
+            content: "✓";
+            color: #1e3c72;
+            font-weight: bold;
+            position: absolute;
+            left: 10px;
+            font-size: 1.3em;
         }
         
         .section {
@@ -202,15 +185,8 @@
         
         .reactions-table tbody tr:hover {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        }
-        
-        .reactions-table tbody tr.aggressive-row {
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            border-left: 5px solid #d32f2f;
-        }
-        
-        .reactions-table tbody tr.aggressive-row:hover {
-            background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.2);
         }
         
         .reactions-table td {
@@ -234,161 +210,62 @@
         
         .reaction-cell:before {
             content: "💬";
-            font-size: 1.4em;
+            font-size: 1.2em;
             flex-shrink: 0;
             margin-top: 2px;
         }
         
-        .reaction-cell.aggressive:before {
-            content: "🚨";
-        }
-        
-        .reformulation-cell {
-            position: relative;
-        }
-        
-        .toggle-btn {
-            background: linear-gradient(135deg, #4a7c2c 0%, #6ba045 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.9em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(74, 124, 44, 0.3);
-        }
-        
-        .toggle-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 124, 44, 0.5);
-        }
-        
-        .toggle-btn.active {
-            background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
-            box-shadow: 0 3px 10px rgba(211, 47, 47, 0.3);
-        }
-        
-        .toggle-btn.active:hover {
-            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.5);
-        }
-        
-        .correction-box {
-            display: none;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-            padding: 20px;
+        .reformulation-cell textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 12px;
+            border: 3px solid #bbdefb;
             border-radius: 12px;
-            border-left: 5px solid #4a7c2c;
-            margin-top: 10px;
-            animation: slideDown 0.3s ease-out;
-            box-shadow: 0 3px 10px rgba(74, 124, 44, 0.2);
-        }
-        
-        .correction-box.visible {
-            display: block;
-        }
-        
-        .correction-box.firm {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-            border-left: 5px solid #ff9800;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .correction-box strong {
-            color: #2d5016;
-            font-size: 1.1em;
-            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95em;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: white;
             margin-bottom: 10px;
         }
         
-        .correction-box.firm strong {
-            color: #e65100;
+        .reformulation-cell textarea:last-child {
+            margin-bottom: 0;
         }
         
-        .correction-box p {
-            color: #333;
-            line-height: 1.6;
-            font-size: 1em;
-            margin-bottom: 8px;
+        .reformulation-label {
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #1e3c72;
+            margin-bottom: 5px;
+            display: block;
         }
         
-        .correction-box .warning {
-            background: rgba(255, 152, 0, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
+        .reformulation-cell textarea:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 4px rgba(30, 60, 114, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .reformulation-cell textarea::placeholder {
+            color: #999;
             font-style: italic;
         }
         
         .response-cell {
-            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             font-size: 0.95em;
             line-height: 1.6;
-            color: #d68910;
-            border-left: 4px solid #f39c12;
+            color: #2d5016;
+            border-left: 4px solid #4a7c2c;
         }
         
         .response-cell strong {
-            color: #d68910;
+            color: #2d5016;
             display: block;
             margin-bottom: 8px;
             font-size: 1.05em;
-        }
-        
-        .escalation-box {
-            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-            padding: 30px;
-            margin: 40px;
-            border-radius: 20px;
-            border-left: 8px solid #d32f2f;
-            box-shadow: 0 5px 20px rgba(211, 47, 47, 0.2);
-        }
-        
-        .escalation-box h3 {
-            color: #d32f2f;
-            font-size: 1.6em;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .escalation-box h3 .emoji {
-            font-size: 1.3em;
-            margin-right: 10px;
-        }
-        
-        .escalation-box ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .escalation-box li {
-            padding: 15px;
-            margin-bottom: 15px;
-            background: white;
-            border-radius: 10px;
-            border-left: 4px solid #d32f2f;
-            box-shadow: 0 2px 8px rgba(211, 47, 47, 0.1);
-        }
-        
-        .escalation-box li strong {
-            color: #d32f2f;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1em;
         }
         
         .tip-box {
@@ -464,6 +341,16 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
+        .btn-secondary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.4);
+        }
+        
         @media print {
             body {
                 background: white;
@@ -474,16 +361,13 @@
                 box-shadow: none;
             }
             
-            .action-buttons, .toggle-all-container {
+            .action-buttons {
                 display: none;
             }
             
-            .toggle-btn {
-                display: none;
-            }
-            
-            .correction-box {
-                display: block !important;
+            .reactions-table textarea {
+                border: 1px solid #ccc;
+                background: white;
             }
         }
         
@@ -511,49 +395,43 @@
     <div class="container">
         <div class="header">
             <h1>💬 Gérer les Réactions Difficiles</h1>
-            <p>Avec recadrages fermes et gestion de l'escalade</p>
+            <p>Répondre aux objections et remarques sensibles lors d'un module VSS</p>
         </div>
         
         <div class="intro-section">
-            <h2><span class="emoji">🎯</span>Mode d'emploi</h2>
-            <p>Ce guide propose des <strong>reformulations nuancées</strong> adaptées à l'intensité de la réaction :</p>
-            <p>✅ <strong>Reformulation empathique</strong> pour accueillir l'objection<br>
-            ⚠️ <strong>Recadrage ferme</strong> si le propos est problématique<br>
-            🚨 <strong>Gestion de l'escalade</strong> si la situation dégénère</p>
-        </div>
-        
-        <div class="toggle-all-container">
-            <button class="toggle-all-btn" onclick="toggleAllCorrections()">
-                👁️ Afficher toutes les corrections
-            </button>
+            <h2><span class="emoji">🎯</span>Objectif de l'exercice</h2>
+            <p>Lors d'un module de prévention VSS, vous pouvez être confronté·e à des réactions difficiles, des objections, voire des remarques problématiques. <strong>Savoir reformuler et répondre de manière factuelle et pédagogique est essentiel.</strong></p>
+            
+            <p><strong>Votre mission :</strong> Pour chaque réaction listée, trouvez une reformulation empathique et proposez une réponse du formateur basée sur les faits.</p>
+            
+            <h3 style="color: #1e3c72; margin-top: 25px; margin-bottom: 15px;">📋 Méthode en 3 étapes :</h3>
+            <ul>
+                <li><strong>Reformuler en 1</strong> : De façon empathique si besoin, montrer qu'on a entendu sans jugement</li>
+                <li><strong>Reformuler en 2</strong> : De manière plus ferme si besoin</li>
+                <li><strong>Répondre factuellement</strong> : S'appuyer sur la loi, les chiffres, les définitions</li>
+                <li><strong>Recadrer si nécessaire</strong> : Rappeler le cadre sans agressivité</li>
+            </ul>
         </div>
         
         <div class="section">
-            <h2 class="section-title"><span class="emoji">📝</span>Réactions et corrections</h2>
+            <h2 class="section-title"><span class="emoji">📝</span>Tableau à compléter</h2>
             
             <table class="reactions-table">
                 <thead>
                     <tr>
                         <th style="width: 25%;">Réaction du stagiaire</th>
-                        <th style="width: 30%;">Reformulation proposée</th>
-                        <th style="width: 45%;">Réponse du formateur</th>
+                        <th style="width: 35%;">Vos reformulations</th>
+                        <th style="width: 40%;">Réponse du formateur (éléments de réponse)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="reaction-cell">"C'est du délire ce #MeToo"</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 1)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-1">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Vous trouvez qu'on en fait trop ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous pensez que le mouvement #MeToo exagère le problème ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-1b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p>"Vous trouvez qu'on en fait trop ? Regardons les faits : juridiquement, la loi existait avant #MeToo. Ce qui change : les victimes osent parler. <strong>1 femme sur 3 subit du harcèlement au travail.</strong> Ce n'est pas 'trop' - c'est massif."</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Exemple : 'Vous trouvez qu'on en fait trop ?'"></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Exemple : 'Cette remarque est problématique. Parlons des faits.'"></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -564,17 +442,10 @@
                     <tr>
                         <td class="reaction-cell">"On ne peut plus rien dire"</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 2)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-2">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Vous avez peur d'être accusé à tort ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous vous demandez où sont les limites ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-2b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p>"Vous avez peur d'être accusé à tort ? Comprenons-nous : <strong>vous pouvez tout dire... tant que vous respectez l'autre.</strong> La loi est très claire sur ce qui est interdit : propos/gestes à connotation sexuelle répétés ou créant un environnement hostile. Tant qu'on respecte cette limite, aucun souci."</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -585,64 +456,38 @@
                     <tr>
                         <td class="reaction-cell">"Les femmes exagèrent"</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 3)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-3">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Vous pensez que c'est amplifié ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous trouvez que les témoignages sont exagérés ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-3b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p class="warning">Attention à cette formulation : dire "les femmes exagèrent" peut être très blessant pour des personnes présentes qui ont vécu des VSS.</p>
-                                <p><strong>Les chiffres montrent qu'on minimise, pas qu'on exagère :</strong> 90% des victimes ne portent pas plainte. Les femmes sont effectivement les premières victimes statistiquement, ce n'est pas exagéré.</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
-                            Les études montrent que les victimes sous-déclarent les VSS, pas l'inverse. 90% des victimes ne portent pas plainte. Si quoi que ce soit, c'est minimisé, pas exagéré. Les femmes sont statistiquement les premières victimes - ce n'est pas une exagération, c'est une réalité documentée.
+                            Les études montrent que les victimes sous-déclarent les VSS, pas l'inverse. 90% des victimes ne portent pas plainte. Si quoi que ce soit, c'est minimisé, pas exagéré.
                         </td>
                     </tr>
                     
                     <tr>
                         <td class="reaction-cell">"C'est de l'humour"</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 4)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-4">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Pour vous, c'était juste une blague ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous ne pensiez pas que ça pouvait blesser ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-4b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p>"Pour vous c'était une blague, mais posons-nous la question : <strong>est-ce encore de l'humour quand on rit DE quelqu'un plutôt qu'AVEC quelqu'un ?</strong>"</p>
-                                <p>"L'humour, c'est quand tout le monde rit, y compris la personne visée. Là, ce n'était pas le cas. Et légalement, c'est l'effet qui compte, pas l'intention."</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
-                            L'humour, c'est rire AVEC quelqu'un. Le harcèlement, c'est rire DE quelqu'un. Ici, la personne visée ne riait pas. C'est l'effet qui compte légalement, pas votre intention.
-                            <br><br>
-                            <strong>Si objection "C'est trop subjectif" :</strong>
-                            Non, la loi ne condamne pas la sensibilité. Elle condamne les comportements à connotation sexuelle/sexiste, <strong>répétés</strong> ou qui créent <strong>objectivement</strong> un environnement hostile. Une blague maladroite isolée ≠ harcèlement. Mais l'insistance malgré le malaise visible = harcèlement.
+                            L'humour, c'est quand tout le monde rit. Là, ça a mis quelqu'un mal à l'aise. Légalement, l'intention ne compte pas, seul l'effet compte.
                         </td>
                     </tr>
                     
                     <tr>
                         <td class="reaction-cell">"Pourquoi que nous ?"<br><span style="font-size: 0.9em; color: #666;">(groupe 100% hommes)</span></td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 5)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-5">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Vous trouvez que ce message ne devrait pas s'adresser qu'aux hommes ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous vous demandez pourquoi cette formation s'adresse à vous ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-5b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p class="warning">"Vous vous sentez visés ? <strong>Ce n'est pas une accusation collective.</strong> On parle de comportements, pas d'un genre. Statistiquement, oui, la majorité des auteurs de VSS sont des hommes - c'est un fait. Mais ça ne veut pas dire que tous les hommes sont concernés, ni qu'il n'y a pas de femmes auteures. Vous êtes ici pour comprendre ce qui est interdit, comme tout le monde."</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -653,13 +498,10 @@
                     <tr>
                         <td class="reaction-cell">Silence gêné collectif</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 6)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-6">
-                                <strong>Gestion proposée :</strong>
-                                <p>Accueillir le silence sans paniquer. Laisser 3-5 secondes, puis :</p>
-                                <p>"Je vois que le sujet crée un certain malaise, c'est normal..."</p>
-                                <p><em>Puis enchaîner sur la réponse →</em></p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Comment gérez-vous ce silence de manière empathique ?"></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Comment gérez-vous ce silence de manière ferme ?"></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -670,213 +512,36 @@
                     <tr>
                         <td class="reaction-cell">"Moi je drague, c'est ma nature"</td>
                         <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 7)">👁️ Afficher la correction</button>
-                            <div class="correction-box" id="correction-7">
-                                <strong>✅ Reformulation empathique :</strong>
-                                <p>"Vous vous demandez où est la limite entre drague et harcèlement ?"</p>
-                                <p><em>ou</em></p>
-                                <p>"Vous voulez comprendre ce qui est acceptable ou pas ?"</p>
-                            </div>
-                            <div class="correction-box firm" id="correction-7b" style="display: none;">
-                                <strong>⚠️ Recadrage ferme :</strong>
-                                <p class="warning">"Vous vous demandez si la drague est possible ici ? <strong>Soyons clairs : en contexte formation/travail, la drague n'a pas sa place.</strong> Il y a un déséquilibre (formateur/stagiaire ou contexte professionnel). La loi est claire sur le harcèlement."</p>
-                            </div>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
-                            En contexte professionnel/formation, c'est inapproprié car il y a toujours un rapport lié au travail ou à l'autorité. La loi définit le harcèlement comme : propos/comportements à connotation sexuelle, répétés OU qui créent un environnement hostile, imposés à quelqu'un. La règle : accepter le refus du premier coup, pas d'insistance.
-                        </td>
-                    </tr>
-                    
-                    <tr class="aggressive-row">
-                        <td class="reaction-cell aggressive">"De toute façon vous êtes tous des féministes hystériques"<br><span style="font-size: 0.9em; color: #666;">(Propos agressif répété)</span></td>
-                        <td class="reformulation-cell">
-                            <button class="toggle-btn" onclick="toggleCorrection(this, 8)">👁️ Afficher la correction</button>
-                            <div class="correction-box firm" id="correction-8">
-                                <strong>🚨 PAS de reformulation empathique ici</strong>
-                                <p class="warning">⛔ <strong>Recadrage ferme immédiat :</strong> "Stop. Ce type de propos est inacceptable dans cette formation."</p>
-                                <p><strong>Puis :</strong></p>
-                                <p>"Si vous souhaitez continuer, je vous demande de vous calmer et de respecter le cadre. Sinon, on fait une pause et on en rediscute individuellement."</p>
-                                <p><em>Si la personne continue :</em> Exclusion de la session + signalement</p>
-                            </div>
-                        </td>
-                        <td class="response-cell">
-                            <strong>Actions à prendre :</strong>
-                            1. Recadrage ferme devant le groupe<br>
-                            2. Proposition de pause<br>
-                            3. Si refus : exclusion de la session<br>
-                            4. Signalement obligatoire à votre hiérarchie/référent VSS<br>
-                            5. Consignation par écrit de l'incident<br>
-                            <strong>Ne restez jamais seul·e face à ce type de situation.</strong>
+                            La drague, OK si : 1) contexte approprié (pas en formation/travail idéalement), 2) vous acceptez le non, 3) pas de rapport de pouvoir. Harcèlement = insistance malgré refus ou contexte pro avec déséquilibre.
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         
-        <div class="escalation-box">
-            <h3><span class="emoji">🚨</span>Gérer l'escalade : Quand la reformulation ne suffit pas</h3>
-            
-            <ul>
-                <li>
-                    <strong>Niveau 1 - Objection classique :</strong>
-                    Reformulation empathique + réponse factuelle (exemples : lignes 1, 2, 4, 5, 6)
-                </li>
-                
-                <li>
-                    <strong>Niveau 2 - Propos problématique (genré, minimisant) :</strong>
-                    Reformulation + recadrage immédiat sur le propos (exemples : lignes 3, 7)
-                    <br><em>Exemple : "Attention, cette remarque peut être blessante"</em>
-                </li>
-                
-                <li>
-                    <strong>Niveau 3 - Propos agressif/discriminatoire :</strong>
-                    STOP immédiat + recadrage ferme + proposition de pause (exemple : ligne 8)
-                    <br><em>Exemple : "Ce type de propos n'a pas sa place ici"</em>
-                </li>
-                
-                <li>
-                    <strong>Niveau 4 - Escalade/menace/refus du cadre :</strong>
-                    Exclusion de la session + signalement obligatoire
-                    <br><em>Vous n'êtes pas obligé·e de tout gérer seul·e</em>
-                </li>
-            </ul>
-            
-            <p style="margin-top: 20px; padding: 15px; background: white; border-radius: 10px; color: #d32f2f; font-weight: 600;">
-                ⚠️ Important : Si vous vous sentez en insécurité physique ou psychologique, arrêtez la formation et contactez votre hiérarchie immédiatement.
-            </p>
-        </div>
-        
         <div class="tip-box">
             <h3><span class="emoji">💡</span>Conseils pour gérer ces réactions</h3>
             <ul>
                 <li><strong>Restez calme et factuel</strong> : Ne vous laissez pas déstabiliser par la provocation</li>
-                <li><strong>Accueillez l'objection... mais recadrez si nécessaire</strong> : Empathie ≠ tout accepter</li>
+                <li><strong>Accueillez l'objection</strong> : "Je comprends votre point de vue" avant de recadrer</li>
                 <li><strong>Utilisez les données</strong> : Chiffres, loi, définitions officielles</li>
                 <li><strong>Dépersonnalisez</strong> : Parlez de comportements, pas de personnes</li>
-                <li><strong>Adaptez votre fermeté au niveau de gravité</strong> : Tout ne mérite pas le même niveau de réaction</li>
+                <li><strong>Posez des limites si nécessaire</strong> : "Ce type de remarque n'a pas sa place ici"</li>
                 <li><strong>Proposez d'en discuter après</strong> : Si la tension monte, prenez un temps individuel</li>
-                <li><strong>Ne restez jamais seul·e face à une situation grave</strong> : Signalement = protection pour vous et le groupe</li>
-                <li><strong>Protégez le groupe</strong> : Ne laissez pas une personne monopoliser ou pourrir l'ambiance</li>
             </ul>
-        </div>
-        
-        <div class="escalation-box" style="background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%); border-left: 8px solid #5c6bc0;">
-            <h3 style="color: #3f51b5;"><span class="emoji">❓</span>Objection fréquente : "C'est trop subjectif, non ?"</h3>
-            
-            <div style="background: white; padding: 20px; border-radius: 12px; margin-top: 15px;">
-                <p style="font-size: 1.1em; color: #333; margin-bottom: 15px;">
-                    <strong>Question :</strong> "Du coup, la loi condamne des gens juste parce que certains plus sensibles se sont sentis visés et n'ont pas le même humour ? C'est aussi subjectif que ça ?"
-                </p>
-                
-                <p style="font-size: 1.05em; color: #d32f2f; font-weight: 600; margin-bottom: 15px;">
-                    ➡️ Réponse : NON, ce n'est pas "juste" subjectif.
-                </p>
-                
-                <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <p style="font-weight: 600; color: #3f51b5; margin-bottom: 10px;">La loi ne condamne pas dès qu'une personne se sent mal à l'aise. Il y a des critères objectifs :</p>
-                    
-                    <ol style="margin-left: 20px; line-height: 1.8;">
-                        <li><strong>Propos ou comportements à connotation sexuelle/sexiste</strong> (pas juste "je me sens visé")</li>
-                        <li><strong>SOIT répétés</strong> (pas un incident isolé) <strong>SOIT</strong> qui créent une situation <strong>objectivement</strong> intimidante, hostile ou offensante</li>
-                        <li><strong>Non désirés</strong> par la personne</li>
-                    </ol>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
-                    <div style="background: #ffebee; padding: 15px; border-radius: 10px; border-left: 4px solid #d32f2f;">
-                        <p style="font-weight: 600; color: #d32f2f; margin-bottom: 10px;">❌ PAS du harcèlement :</p>
-                        <ul style="margin-left: 15px; font-size: 0.95em; line-height: 1.6;">
-                            <li>Une blague lourde, UNE fois</li>
-                            <li>Un compliment maladroit</li>
-                            <li>Une remarque qui tombe à plat</li>
-                        </ul>
-                    </div>
-                    
-                    <div style="background: #e8f5e9; padding: 15px; border-radius: 10px; border-left: 4px solid #4a7c2c;">
-                        <p style="font-weight: 600; color: #4a7c2c; margin-bottom: 10px;">✅ C'EST du harcèlement :</p>
-                        <ul style="margin-left: 15px; font-size: 0.95em; line-height: 1.6;">
-                            <li>Blagues sexistes répétées malgré malaise visible</li>
-                            <li>"C'est de l'humour" pour justifier remarques sur physique/sexualité</li>
-                            <li>Climat quotidien de "blagues" qui ciblent toujours les mêmes</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <p style="margin-top: 20px; padding: 15px; background: #fff3e0; border-radius: 8px; border-left: 4px solid #ff9800; font-weight: 600; color: #333;">
-                    💡 <strong>En résumé :</strong> Une blague maladroite isolée ≠ harcèlement. Mais l'humour sexiste répété, ou qui vise toujours les mêmes personnes, ou qui crée un climat hostile : là, oui, c'est sanctionnable. <strong>La loi protège contre les comportements systémiques</strong>, pas contre la sensibilité ponctuelle.
-                </p>
-            </div>
         </div>
         
         <div class="action-buttons">
             <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimer / Télécharger en PDF</button>
+            <button class="btn btn-secondary" onclick="alert('Excellent travail ! Vous êtes maintenant mieux préparé·e à gérer ces situations délicates. 💪')">✅ Exercice terminé</button>
         </div>
     </div>
-    
-    <script>
-        let allVisible = false;
-        
-        function toggleCorrection(button, id) {
-            const correctionBox = document.getElementById('correction-' + id);
-            const correctionBoxB = document.getElementById('correction-' + id + 'b');
-            const isVisible = correctionBox.classList.contains('visible');
-            
-            if (isVisible) {
-                correctionBox.classList.remove('visible');
-                if (correctionBoxB) {
-                    correctionBoxB.style.display = 'none';
-                }
-                button.textContent = '👁️ Afficher la correction';
-                button.classList.remove('active');
-            } else {
-                correctionBox.classList.add('visible');
-                if (correctionBoxB) {
-                    correctionBoxB.style.display = 'block';
-                    correctionBoxB.classList.add('visible');
-                }
-                button.textContent = '🙈 Masquer la correction';
-                button.classList.add('active');
-            }
-        }
-        
-        function toggleAllCorrections() {
-            const allButtons = document.querySelectorAll('.toggle-btn');
-            const allBoxes = document.querySelectorAll('.correction-box');
-            const toggleAllBtn = document.querySelector('.toggle-all-btn');
-            
-            allVisible = !allVisible;
-            
-            allBoxes.forEach((box) => {
-                if (allVisible) {
-                    if (box.id.includes('b')) {
-                        box.style.display = 'block';
-                    }
-                    box.classList.add('visible');
-                } else {
-                    if (box.id.includes('b')) {
-                        box.style.display = 'none';
-                    }
-                    box.classList.remove('visible');
-                }
-            });
-            
-            allButtons.forEach((button) => {
-                if (allVisible) {
-                    button.textContent = '🙈 Masquer la correction';
-                    button.classList.add('active');
-                } else {
-                    button.textContent = '👁️ Afficher la correction';
-                    button.classList.remove('active');
-                }
-            });
-            
-            if (allVisible) {
-                toggleAllBtn.textContent = '🙈 Masquer toutes les corrections';
-            } else {
-                toggleAllBtn.textContent = '👁️ Afficher toutes les corrections';
-            }
-        }
-    </script>
 </body>
 </html>
