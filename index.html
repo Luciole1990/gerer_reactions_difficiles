@@ -203,28 +203,42 @@
             font-weight: 600;
             color: #d32f2f;
             font-size: 1.1em;
-            position: relative;
-            padding-left: 35px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
         
         .reaction-cell:before {
             content: "💬";
-            position: absolute;
-            left: 5px;
             font-size: 1.2em;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
         
         .reformulation-cell textarea {
             width: 100%;
-            min-height: 80px;
-            padding: 15px;
+            min-height: 60px;
+            padding: 12px;
             border: 3px solid #bbdefb;
             border-radius: 12px;
             font-family: 'Poppins', sans-serif;
-            font-size: 1em;
+            font-size: 0.95em;
             resize: vertical;
             transition: all 0.3s ease;
             background: white;
+            margin-bottom: 10px;
+        }
+        
+        .reformulation-cell textarea:last-child {
+            margin-bottom: 0;
+        }
+        
+        .reformulation-label {
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #1e3c72;
+            margin-bottom: 5px;
+            display: block;
         }
         
         .reformulation-cell textarea:focus {
@@ -392,7 +406,8 @@
             
             <h3 style="color: #1e3c72; margin-top: 25px; margin-bottom: 15px;">📋 Méthode en 3 étapes :</h3>
             <ul>
-                <li><strong>Reformuler</strong> : Montrer qu'on a entendu, sans jugement</li>
+                <li><strong>Reformuler en 1</strong> : De façon empathique si besoin, montrer qu'on a entendu sans jugement</li>
+                <li><strong>Reformuler en 2</strong> : De manière plus ferme si besoin</li>
                 <li><strong>Répondre factuellement</strong> : S'appuyer sur la loi, les chiffres, les définitions</li>
                 <li><strong>Recadrer si nécessaire</strong> : Rappeler le cadre sans agressivité</li>
             </ul>
@@ -405,15 +420,18 @@
                 <thead>
                     <tr>
                         <th style="width: 25%;">Réaction du stagiaire</th>
-                        <th style="width: 30%;">Votre reformulation</th>
-                        <th style="width: 45%;">Réponse du formateur (éléments de réponse)</th>
+                        <th style="width: 35%;">Vos reformulations</th>
+                        <th style="width: 40%;">Réponse du formateur (éléments de réponse)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="reaction-cell">"C'est du délire ce #MeToo"</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique...&#10;&#10;Exemple : 'Vous trouvez qu'on en fait trop ?'"></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Exemple : 'Vous trouvez qu'on en fait trop ?'"></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Exemple : 'Cette remarque est problématique. Parlons des faits.'"></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -424,7 +442,10 @@
                     <tr>
                         <td class="reaction-cell">"On ne peut plus rien dire"</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -435,7 +456,10 @@
                     <tr>
                         <td class="reaction-cell">"Les femmes exagèrent"</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -446,7 +470,10 @@
                     <tr>
                         <td class="reaction-cell">"C'est de l'humour"</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -457,7 +484,10 @@
                     <tr>
                         <td class="reaction-cell">"Pourquoi que nous ?"<br><span style="font-size: 0.9em; color: #666;">(groupe 100% hommes)</span></td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -468,7 +498,10 @@
                     <tr>
                         <td class="reaction-cell">Silence gêné collectif</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Comment gérez-vous ce silence ?"></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Comment gérez-vous ce silence de manière empathique ?"></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Comment gérez-vous ce silence de manière ferme ?"></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
@@ -479,7 +512,10 @@
                     <tr>
                         <td class="reaction-cell">"Moi je drague, c'est ma nature"</td>
                         <td class="reformulation-cell">
-                            <textarea placeholder="Écrivez ici votre reformulation empathique..."></textarea>
+                            <label class="reformulation-label">🤝 Empathique :</label>
+                            <textarea placeholder="Reformulation empathique..."></textarea>
+                            <label class="reformulation-label">💪 Ferme :</label>
+                            <textarea placeholder="Reformulation ferme..."></textarea>
                         </td>
                         <td class="response-cell">
                             <strong>Éléments de réponse :</strong>
